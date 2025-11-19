@@ -309,28 +309,24 @@ npm run test:coverage
 
 **Live URL**: `https://order-execution-engine.onrender.com`
 
-## 🎥 Demo Video
-
+## 🎥 Demo Video Requirements
 **YouTube**: [Order Execution Engine Demo](https://youtube.com/demo-link)
 
-The demo shows:
-- Submitting 3-5 concurrent orders
-- WebSocket streaming all status updates
-- Console logs showing DEX routing decisions
-- Queue processing multiple orders simultaneously
+The demo video (1-2 mins) demonstrates:
+- [ ] **Order Flow**: Complete lifecycle from submission to confirmation
+- [ ] **Concurrent Orders**: 3-5 orders submitted simultaneously
+- [ ] **WebSocket Updates**: Real-time status changes (pending → routing → confirmed) visible in UI/Console
+- [ ] **DEX Routing**: Console logs showing price comparison and routing decisions
+- [ ] **Queue Processing**: Multiple orders being processed in parallel
 
-## 📚 Postman Collection
+## 📚 Postman & Testing
+- **Postman Collection**: Included in `./postman/Order-Execution-Engine.postman_collection.json`
+- **Unit/Integration Tests**: 21 tests implemented (≥10 required)
+  - ✅ **Routing Logic**: MockDexRouter tests
+  - ✅ **Queue Behavior**: OrderQueue concurrency & retry tests
+  - ✅ **WebSocket Lifecycle**: Connection & status update tests
 
-Import the Postman collection from:
-```
-./postman/Order-Execution-Engine.postman_collection.json
-```
 
-The collection includes:
-- POST order execution with WebSocket setup
-- Example requests for SOL → USDC swaps
-- WebSocket connection examples
-- Metrics endpoint
 
 ## 🏗️ Implementation Options
 
