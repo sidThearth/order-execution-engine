@@ -10,7 +10,8 @@ This engine processes **Market Orders** with intelligent routing across multiple
 
 1. **Order Submission**: User submits an order via `POST /api/orders/execute`.
 2. **Validation & Queueing**: API validates the request, generates an `orderId`, and adds the job to the Redis queue.
-3. **Live Updates**: The same HTTP connection upgrades to a WebSocket connection, streaming real-time status updates (`pending` → `routing` → `building` → `submitted` → `confirmed`).
+3. **DEX Routing**: System fetches quotes from both Raydium and Meteora pools, compares prices, selects the best execution venue, and routes the order to the DEX with better price/liquidity.
+4. **Live Updates**: The same HTTP connection upgrades to a WebSocket connection, streaming real-time status updates (`pending` → `routing` → `building` → `submitted` → `confirmed`).
 
 ### Why Market Orders?
 Market Orders were chosen to demonstrate immediate DEX routing and execution flow without the complexity of long-running price monitoring. This allows the project to focus on core architecture, queue management, and real-time WebSocket updates.
