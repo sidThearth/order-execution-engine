@@ -296,6 +296,26 @@ The collection includes:
 - WebSocket connection examples
 - Metrics endpoint
 
+## 🏗️ Implementation Options
+
+### Option A: Real Devnet Execution (Bonus Points)
+- Use actual Raydium/Meteora SDKs
+- Execute real trades on devnet
+- Deal with network latency and failures
+
+### Option B: Mock Implementation (Recommended)
+- Simulate DEX responses with realistic delays (2-3 seconds)
+- Focus on architecture and flow
+- Mock price variations between DEXs (~2-5% difference)
+
+## 📚 Resources & References
+- **Solana Libraries**: `@solana/web3.js`, `@solana/spl-token`
+- **DEX SDKs**: `@raydium-io/raydium-sdk-v2`, `@meteora-ag/dynamic-amm-sdk`
+- **Docs**:
+  - [Raydium SDK Demo](https://github.com/raydium-io/raydium-sdk-V2-demo)
+  - [Meteora Docs](https://docs.meteora.ag/)
+- **Tools**: [Solana Faucet](https://faucet.solana.com) (if using devnet)
+
 ## 🔧 Development Notes
 
 ### Mock Implementation Details
