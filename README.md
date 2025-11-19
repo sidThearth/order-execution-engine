@@ -6,22 +6,17 @@ A robust order execution engine with DEX routing (Raydium/Meteora), WebSocket st
 
 This engine processes **Market Orders** with intelligent routing across multiple DEXs to find the best execution price. Orders are processed through a queue system with real-time WebSocket updates tracking each step from submission to confirmation.
 
+## ⚙️ How It Works - Order Execution Flow
+
+1. **Order Submission**: User submits an order via `POST /api/orders/execute`.
+2. **Validation & Queueing**: API validates the request, generates an `orderId`, and adds the job to the Redis queue.
+3. **Live Updates**: The same HTTP connection upgrades to a WebSocket connection, streaming real-time status updates (`pending` → `routing` → `building` → `submitted` → `confirmed`).
+
 ### Why Market Orders?
-
-**Market Orders** were chosen as the initial implementation for the following reasons:
-
-- **Immediate Execution**: Executes right away at current market price, demonstrating DEX routing without additional complexity
-- **Architecture Focus**: Allows focus on queue management, WebSocket streaming, and system design
-- **Best for Mock Implementation**: Simplifies testing while maintaining realistic behavior
+Market Orders were chosen to demonstrate immediate DEX routing and execution flow without the complexity of long-running price monitoring. This allows the project to focus on core architecture, queue management, and real-time WebSocket updates.
 
 ### Extension to Other Order Types
-
-The architecture is designed for easy extension:
-
-- **Limit Orders**: Add a price monitoring service that continuously polls DEX quotes and triggers execution when the target price is reached. Reuses existing DEX router and execution pipeline.
-- **Sniper Orders**: Implement a token launch listener (monitoring new pool creation events on-chain) that triggers execution immediately upon detection. Leverages the same queue and WebSocket infrastructure.
-
-Both extensions would integrate seamlessly with the existing order processor, queue system, and WebSocket manager.
+To support **Limit Orders**, a price monitoring service would poll quotes and trigger the existing execution pipeline when targets are met. **Sniper Orders** would use a similar listener for on-chain token creation events, leveraging the same queue and WebSocket infrastructure.
 
 ## 🏗️ Architecture
 
