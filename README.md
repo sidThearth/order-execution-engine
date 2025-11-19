@@ -196,13 +196,14 @@ Connect immediately after receiving `orderId` from the POST endpoint.
 }
 ```
 
-**Status Flow**:
-1. `pending` - Order received and queued
-2. `routing` - Comparing DEX prices
-3. `building` - Creating transaction
-4. `submitted` - Transaction sent to network
-5. `confirmed` - Transaction successful ✅
-6. `failed` - If any step fails ❌
+### Execution Progress (via WebSocket)
+
+- `"pending"` - Order received and queued
+- `"routing"` - Comparing DEX prices
+- `"building"` - Creating transaction
+- `"submitted"` - Transaction sent to network
+- `"confirmed"` - Transaction successful (includes txHash)
+- `"failed"` - If any step fails (includes error)
 
 ### Queue Metrics
 
