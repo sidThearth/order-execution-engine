@@ -76,6 +76,29 @@ POST /api/orders/execute
 - ✅ **Persistent Storage**: PostgreSQL for order history, Redis for active orders
 - ✅ **Comprehensive Testing**: 20+ unit and integration tests
 
+## ✅ Core Requirements Implemented
+
+### 1. Order Types
+- [x] **Market Order** - Immediate execution at current price (Chosen Implementation)
+- [ ] Limit Order - Execute when target price reached
+- [ ] Sniper Order - Execute on token launch/migration
+
+### 2. DEX Router Implementation
+- [x] Query both Raydium and Meteora for quotes
+- [x] Route to best price automatically
+- [x] Handle wrapped SOL for native token swaps
+- [x] Log routing decisions for transparency
+
+### 3. HTTP → WebSocket Pattern
+- [x] Single endpoint handles both protocols
+- [x] Initial POST returns orderId
+- [x] Connection upgrades to WebSocket for status streaming
+
+### 4. Concurrent Processing
+- [x] Queue system managing up to 10 concurrent orders
+- [x] Process 100 orders/minute
+- [x] Exponential back-off retry (≤3 attempts). If still unsuccessful, emit "failed" status and persist failure reason for post-mortem analysis
+
 ## 📋 Tech Stack
 
 - **Runtime**: Node.js + TypeScript
