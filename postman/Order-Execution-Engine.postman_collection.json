@@ -1,0 +1,117 @@
+{
+    "info": {
+        "name": "Order Execution Engine",
+        "description": "API collection for testing the Order Execution Engine with DEX routing and WebSocket status updates",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Orders",
+            "item": [
+                {
+                    "name": "Submit Market Order - SOL to USDC",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"userId\": \"user-123\",\n  \"orderType\": \"MARKET\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"USDC\",\n  \"amountIn\": 100,\n  \"slippage\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/orders/execute",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "orders",
+                                "execute"
+                            ]
+                        },
+                        "description": "Submit a market order for SOL to USDC swap. Returns orderId for WebSocket connection."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Submit Market Order - Large Amount",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"userId\": \"user-456\",\n  \"orderType\": \"MARKET\",\n  \"tokenIn\": \"SOL\",\n  \"tokenOut\": \"USDC\",\n  \"amountIn\": 1000,\n  \"slippage\": 2\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/orders/execute",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "orders",
+                                "execute"
+                            ]
+                        },
+                        "description": "Submit a larger market order with higher slippage tolerance."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Queue Metrics",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/orders/metrics",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "orders",
+                                "metrics"
+                            ]
+                        },
+                        "description": "Get current queue metrics including waiting, active, completed, and failed orders."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/health",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health"
+                    ]
+                },
+                "description": "Health check endpoint to verify server is running."
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3000",
+            "type": "string"
+        }
+    ]
+}
