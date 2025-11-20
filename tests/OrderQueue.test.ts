@@ -3,13 +3,19 @@ import { OrderType } from '../src/types';
 import { Queue } from 'bullmq';
 
 // Mock Redis connection
-jest.mock('ioredis', () => {
-    return jest.fn().mockImplementation(() => ({
-        on: jest.fn(),
-        connect: jest.fn(),
-        quit: jest.fn(),
-        duplicate: jest.fn().mockReturnThis()
-    }));
+// Mock BullMQ
+jest.mock('bullmq', () => {
+    return {
+        Queue: jest.fn().mockImplementation(() => ({
+            add: jest.fn(),
+            getWaitingCount: jest.fn().mockResolvedValue(5),
+            getActiveCount: jest.fn().mockResolvedValue(2),
+            getCompletedCount: jest.fn().mockResolvedValue(10),
+            getFailedCount: jest.fn().mockResolvedValue(1),
+            close: jest.fn().mockResolvedValue(undefined),
+            on: jest.fn()
+        }))
+    };
 });
 
 describe('OrderQueue', () => {

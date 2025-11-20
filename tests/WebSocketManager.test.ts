@@ -4,7 +4,7 @@ import { WebSocket } from 'ws';
 
 // Mock WebSocket
 class MockWebSocket {
-    readyState = WebSocket.OPEN;
+    readyState: number = WebSocket.OPEN;
     public sentMessages: string[] = [];
     public eventHandlers: Map<string, Function[]> = new Map();
 

@@ -1,6 +1,18 @@
 # Order Execution Engine
 
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/order-execution-engine)
+
 A robust order execution engine with DEX routing (Raydium/Meteora), WebSocket status updates, and concurrent order processing for Solana-based token swaps.
+
+## 🚀 Live Demo
+
+**Deployed on Railway**: [https://order-execution-engine-production.up.railway.app](https://order-execution-engine-production.up.railway.app)
+
+Try the live API:
+- **Health Check**: [https://order-execution-engine-production.up.railway.app/health](https://order-execution-engine-production.up.railway.app/health)
+- **API Info**: [https://order-execution-engine-production.up.railway.app/](https://order-execution-engine-production.up.railway.app/)
+- **Submit Order**: `POST https://order-execution-engine-production.up.railway.app/api/orders/execute`
+- **WebSocket**: `wss://order-execution-engine-production.up.railway.app/api/orders/ws/:orderId`
 
 ## 🎯 Project Overview
 
@@ -284,30 +296,47 @@ npm run test:coverage
 
 ## 📦 Deployment
 
-### Deploy to Render (Free Tier)
+### Deployed on Railway
+
+**🚀 Live URL**: [https://order-execution-engine-production.up.railway.app](https://order-execution-engine-production.up.railway.app)
+
+This application is deployed on Railway with managed PostgreSQL and Redis instances.
+
+### Deploy to Railway (Recommended)
+
+1. Create account at [railway.app](https://railway.app)
+
+2. Create new project from GitHub repository:
+   - Click "New Project"
+   - Select "Deploy from GitHub repo"
+   - Choose `order-execution-engine`
+
+3. Add PostgreSQL database:
+   - Click "+ New" → Database → PostgreSQL
+   - Railway automatically creates `DATABASE_URL`
+
+4. Add Redis instance:
+   - Click "+ New" → Database → Redis
+   - Railway automatically creates `REDIS_URL`
+
+5. Configure environment variables:
+   - Railway auto-populates database connection strings
+   - Add other variables from `.env.example` if needed
+   - Set `PORT=3000` (or let Railway assign automatically)
+
+6. Generate domain:
+   - Go to Settings → Networking
+   - Click "Generate Domain"
+   - Enter port `3000`
+
+### Alternative: Deploy to Render
 
 1. Create account at [render.com](https://render.com)
-
-2. Create PostgreSQL database:
-   - New → PostgreSQL
-   - Name: `order-execution-db`
-   - Copy connection string
-
-3. Create Redis instance:
-   - New → Redis
-   - Name: `order-execution-redis`
-   - Copy connection string
-
-4. Create Web Service:
-   - New → Web Service
-   - Connect GitHub repository
-   - Build Command: `npm install && npm run build`
-   - Start Command: `npm start`
-   - Add environment variables from `.env.example`
-
-5. Update environment variables with database URLs from steps 2-3
-
-**Live URL**: `https://order-execution-engine.onrender.com`
+2. Create PostgreSQL and Redis instances
+3. Create Web Service from GitHub
+4. Build Command: `npm install && npm run build`
+5. Start Command: `npm start`
+6. Add environment variables from `.env.example`
 
 ## 🎥 Demo Video Requirements
 **YouTube**: [Order Execution Engine Demo](https://youtube.com/demo-link)

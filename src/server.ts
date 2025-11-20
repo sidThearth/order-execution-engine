@@ -54,7 +54,6 @@ async function startServer() {
         wsManager
     } as any);
 
-    // Root route for convenience
     fastify.get('/', async () => {
         return {
             name: 'Order Execution Engine API',
@@ -64,7 +63,7 @@ async function startServer() {
                 health: '/health',
                 execute_order: 'POST /api/orders/execute',
                 metrics: '/api/orders/metrics',
-                websocket: 'ws://localhost:3000/api/orders/ws/:orderId'
+                websocket: 'ws://<your-domain>/api/orders/ws/:orderId'
             }
         };
     });

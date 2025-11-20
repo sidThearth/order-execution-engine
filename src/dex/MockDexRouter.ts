@@ -103,6 +103,13 @@ export class MockDexRouter {
         // Generate mock transaction hash
         const txHash = this.generateMockTxHash();
 
+        // Handle Wrapped SOL for native token swaps
+        if (tokenIn === 'SOL' || tokenOut === 'SOL') {
+            console.log(`[${dex}] Wrapping/Unwrapping SOL <-> WSOL for swap execution`);
+            // Simulate extra time for wrapping/unwrapping
+            await this.sleep(200);
+        }
+
         return {
             txHash,
             executedPrice,
