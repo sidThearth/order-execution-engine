@@ -30,10 +30,10 @@ export default async function orderRoutes(
     const { orderQueue, wsManager } = opts;
 
     /**
-     * POST /api/orders/execute - Submit order and upgrade to WebSocket
+     * POST /execute - Submit order and upgrade to WebSocket
      */
     fastify.post<{ Body: CreateOrderRequest }>(
-        '/api/orders/execute',
+        '/execute',
         { schema: createOrderSchema },
         async (request: FastifyRequest<{ Body: CreateOrderRequest }>, reply: FastifyReply) => {
             const orderRequest = request.body;
@@ -62,7 +62,7 @@ export default async function orderRoutes(
     );
 
     /**
-     * WebSocket /api/orders/ws/:orderId - Stream order status updates
+     * WebSocket /ws/:orderId - Stream order status updates
      */
     fastify.register(async function (fastify) {
         fastify.get(
@@ -70,6 +70,20 @@ export default async function orderRoutes(
             { websocket: true },
             (connection: any, request: FastifyRequest<{ Params: { orderId: string } }>) => {
                 const { orderId } = request.params;
+
+                // Debug logging
+                if (!connection) {
+                    fastify.log.error('WebSocket connection object is undefined');
+                    return;
+                }
+                if (!connection.socket) {
+                    fastify.log.error(`WebSocket socket is undefined. Connection keys: ${Object.keys(connection)}`);
+                    // Try to find socket in other properties if API changed
+                    if ((connection as any).raw) {
+                        fastify.log.info('Found .raw property on connection');
+                    }
+                }
+
                 const ws: WebSocket = connection.socket;
 
                 // Register WebSocket connection
@@ -97,9 +111,9 @@ export default async function orderRoutes(
     });
 
     /**
-     * GET /api/orders/metrics - Get queue metrics
+     * GET /metrics - Get queue metrics
      */
-    fastify.get('/api/orders/metrics', async (request, reply) => {
+    fastify.get('/metrics', async (request, reply) => {
         const metrics = await orderQueue.getMetrics();
         return reply.send({
             ...metrics,

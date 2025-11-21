@@ -52,20 +52,26 @@ export class OrderProcessor {
             // Status: PENDING
             await this.updateStatus(orderId, OrderStatus.PENDING, 'Order received and queued');
 
-            // Create order record
-            const order: Order = {
-                orderId,
-                userId,
-                orderType: orderType as OrderType,
-                tokenIn,
-                tokenOut,
-                amountIn,
-                slippage,
-                status: OrderStatus.PENDING,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            };
-            await this.dbService.saveOrder(order);
+            // Give client time to connect to WebSocket
+            await this.sleep(500);
+
+            // Create order record if it doesn't exist (idempotency for retries)
+            const existingOrder = await this.dbService.getOrder(orderId);
+            if (!existingOrder) {
+                const order: Order = {
+                    orderId,
+                    userId,
+                    orderType: orderType as OrderType,
+                    tokenIn,
+                    tokenOut,
+                    amountIn,
+                    slippage,
+                    status: OrderStatus.PENDING,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                };
+                await this.dbService.saveOrder(order);
+            }
 
             // Status: ROUTING
             await this.updateStatus(orderId, OrderStatus.ROUTING, 'Comparing DEX prices');

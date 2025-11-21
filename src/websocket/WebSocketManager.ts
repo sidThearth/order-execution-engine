@@ -16,7 +16,13 @@ export class WebSocketManager {
      * Register a WebSocket connection for an order
      */
     registerConnection(orderId: string, ws: WebSocket): void {
+        if (!ws) {
+            console.error(`Attempted to register null WebSocket for order ${orderId}`);
+            return;
+        }
+
         this.connections.set(orderId, ws);
+        (ws as any).isAlive = true; // Initialize isAlive
 
         // Set up heartbeat
         ws.on('pong', () => {
@@ -65,6 +71,11 @@ export class WebSocketManager {
     startHeartbeat(): void {
         const interval = setInterval(() => {
             this.connections.forEach((ws, orderId) => {
+                if (!ws) {
+                    this.connections.delete(orderId);
+                    return;
+                }
+
                 if (!(ws as any).isAlive) {
                     console.log(`Terminating stale connection for order: ${orderId}`);
                     return this.removeConnection(orderId);
