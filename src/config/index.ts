@@ -89,3 +89,4 @@ export const config = {
         wsUrl: process.env.SOLANA_WS_URL || 'wss://api.devnet.solana.com'
     }
 };
+
